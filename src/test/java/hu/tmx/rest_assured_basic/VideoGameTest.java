@@ -65,4 +65,11 @@ public class VideoGameTest extends VideoGameConfig {
         when().delete("videogames/1").
         then();
     }
+
+    @Test
+    public void getSingleGame(){
+        given().pathParam("id", 5).
+        when().get(Endpoints.SINGLE_VIDEO_GAME).
+        then();
+    }
 }
