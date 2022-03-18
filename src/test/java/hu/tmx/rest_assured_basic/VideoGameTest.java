@@ -22,8 +22,7 @@ public class VideoGameTest extends VideoGameConfig {
                 + "\"releaseDate\": \"2022-03-11T09:52:07.039Z\","
                 + "\"reviewScore\": 88,"
                 + "\"category\": \"Shooter\","
-                + "\"rating\": \"Universal\""
-                + "}";
+                + "\"rating\": \"Universal\"}";
 
         given().body(json).
         when().post(Endpoints.ALL_VIDEO_GAMES).
@@ -43,6 +42,27 @@ public class VideoGameTest extends VideoGameConfig {
                 header("Accept", "application/xml").
                 header("Content-Type", "application/xml").
         when().post(Endpoints.ALL_VIDEO_GAMES).
+        then();
+    }
+
+    @Test
+    public void  updateGame(){
+        String json = "{\"id\": 1,\n"
+                + "  \"name\": \"MyNewGame\","
+                + "  \"releaseDate\": \"2022-03-17T08:40:04.069Z\","
+                + "  \"reviewScore\": 77,"
+                + "  \"category\": \"Driving\","
+                + "  \"rating\": \"Universal\"}";
+
+        given().body(json).
+        when().put("videogames/1").
+        then();
+    }
+
+    @Test
+    public void deleteGame(){
+        given().
+        when().delete("videogames/1").
         then();
     }
 }
