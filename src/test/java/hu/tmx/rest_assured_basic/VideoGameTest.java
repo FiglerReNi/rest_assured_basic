@@ -16,7 +16,7 @@ public class VideoGameTest extends VideoGameConfig {
     }
 
     @Test
-    public void  createNewGameByJson(){
+    public void createNewGameByJson(){
         String json = "{\"id\": 31,"
                 + "\"name\": \"MyTeam\","
                 + "\"releaseDate\": \"2022-03-11T09:52:07.039Z\","
@@ -30,7 +30,7 @@ public class VideoGameTest extends VideoGameConfig {
     }
 
     @Test
-    public void  createNewGameByXml(){
+    public void createNewGameByXml(){
         String xml = "<videoGame category=\"Shooter\" rating=\"Universal\">"
                 + "<id>27</id>"
                 + "<name>Resident Evil 8</name>"
@@ -46,7 +46,7 @@ public class VideoGameTest extends VideoGameConfig {
     }
 
     @Test
-    public void  updateGame(){
+    public void updateGame(){
         String json = "{\"id\": 1,\n"
                 + "  \"name\": \"MyNewGame\","
                 + "  \"releaseDate\": \"2022-03-17T08:40:04.069Z\","
