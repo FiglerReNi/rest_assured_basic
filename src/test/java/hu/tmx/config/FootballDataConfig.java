@@ -22,6 +22,8 @@ public class FootballDataConfig {
                 .setBasePath("/v2/")
                 .addHeader("X-Auth-Token", "b990d140603441ccb899040b700a0048")
                 .addHeader("X-Response-Control", "minified")
+                .addFilter(new RequestLoggingFilter())
+                .addFilter(new ResponseLoggingFilter())
                 .build();
 
         responseSpecificationFootballData = new ResponseSpecBuilder()
