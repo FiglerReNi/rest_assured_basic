@@ -54,15 +54,15 @@ public class VideoGameTest extends VideoGameConfig {
                 + "  \"category\": \"Driving\","
                 + "  \"rating\": \"Universal\"}";
 
-        given().body(json).
-        when().put("videogames/1").
+        given().body(json).pathParam("id", 1).
+        when().put(Endpoints.SINGLE_VIDEO_GAME).
         then();
     }
 
     @Test
     public void deleteGame(){
-        given().
-        when().delete("videogames/1").
+        given().pathParam("id", 1).
+        when().delete(Endpoints.SINGLE_VIDEO_GAME).
         then();
     }
 
