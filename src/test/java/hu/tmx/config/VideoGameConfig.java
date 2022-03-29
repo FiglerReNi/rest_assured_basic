@@ -16,7 +16,6 @@ public class VideoGameConfig {
 
     @BeforeAll
     public static void setUp(){
-
         requestSpecificationVideoGame = new RequestSpecBuilder()
                 .setBaseUri("http://localhost")
                 .setBasePath("/app/")
@@ -33,6 +32,5 @@ public class VideoGameConfig {
 
         RestAssured.requestSpecification = requestSpecificationVideoGame;
         RestAssured.responseSpecification = responseSpecificationVideoGame;
-
     }
 }

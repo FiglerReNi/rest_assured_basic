@@ -16,7 +16,6 @@ public class FootballDataConfig {
 
     @BeforeAll
     public static void setUp(){
-
         requestSpecificationFootballData = new RequestSpecBuilder()
                 .setBaseUri("http://api.football-data.org")
                 .setBasePath("/v2/")
@@ -32,6 +31,5 @@ public class FootballDataConfig {
 
         RestAssured.requestSpecification = requestSpecificationFootballData;
         RestAssured.responseSpecification = responseSpecificationFootballData;
-
     }
 }
