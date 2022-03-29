@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.*;
 
 import hu.tmx.config.Endpoints;
 import hu.tmx.config.VideoGameConfig;
+import model.VideoGame;
 import org.junit.jupiter.api.Test;
 
 public class VideoGameTest extends VideoGameConfig {
@@ -72,4 +73,18 @@ public class VideoGameTest extends VideoGameConfig {
         when().get(Endpoints.SINGLE_VIDEO_GAME).
         then();
     }
+
+    @Test
+    public void createNewGameWitPojo(){
+        VideoGame videoGame = VideoGame.builder()
+                .id("33").reviewScore("99")
+                .releaseDate("2022-02-02")
+                .name("My new game")
+                .category("Shooter")
+                .rating("Universal").build();
+        given().body(videoGame).
+        when().post(Endpoints.ALL_VIDEO_GAMES).
+        then();
+    }
+
 }

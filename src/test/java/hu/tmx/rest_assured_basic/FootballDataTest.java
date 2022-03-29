@@ -52,8 +52,8 @@ public class FootballDataTest extends FootballDataConfig {
     @Test
     public void getAllTeamDataWithAssertInString(){
         String responseBody = given().pathParam("id", 57).
-                when().get(Endpoints.SINGLE_TEAM).
-                then().contentType(ContentType.JSON).extract().asString();
+                                when().get(Endpoints.SINGLE_TEAM).
+                                then().contentType(ContentType.JSON).extract().asString();
         System.out.println(responseBody);
     }
 
