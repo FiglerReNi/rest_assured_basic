@@ -9,6 +9,7 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 public class FootballDataTest extends FootballDataConfig {
@@ -84,4 +85,13 @@ public class FootballDataTest extends FootballDataConfig {
             System.out.println(teamName);
         }
     }
+
+    @Test
+    public  void getSingleTeamAllDataInGivenCompetition(){
+        Response response = given().pathParam("id", 2021).
+                            when().get(Endpoints.SINGLE_COMPETITION);
+        Map<String, ?> allDataOfSingleTeam = response.path("teams.find {it.name == 'Liverpool FC'}");
+        System.out.println(allDataOfSingleTeam);
+    }
+
 }
