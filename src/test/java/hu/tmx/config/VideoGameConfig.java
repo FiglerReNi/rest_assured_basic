@@ -1,5 +1,7 @@
 package hu.tmx.config;
 
+import static org.hamcrest.Matchers.lessThan;
+
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -28,6 +30,7 @@ public class VideoGameConfig {
 
         responseSpecificationVideoGame = new ResponseSpecBuilder()
                 .expectStatusCode(200)
+                .expectResponseTime(lessThan(5000L))
                 .build();
 
         RestAssured.requestSpecification = requestSpecificationVideoGame;
