@@ -1,6 +1,8 @@
 package hu.tmx.rest_assured_basic;
 
 import static io.restassured.RestAssured.*;
+import static io.restassured.matcher.RestAssuredMatchers.matchesXsdInClasspath;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 import hu.tmx.config.Endpoints;
 import hu.tmx.config.VideoGameConfig;
@@ -86,5 +88,20 @@ public class VideoGameTest extends VideoGameConfig {
         when().post(Endpoints.ALL_VIDEO_GAMES).
         then();
     }
+
+    @Test
+    public void getSingleVideoGameXmlResponse(){
+        given().pathParam("id", 5).header("Content-Type", "application/xml").header("Accept", "application/xml").
+        when().get(Endpoints.SINGLE_VIDEO_GAME).
+        then().body(matchesXsdInClasspath("VideoGameXsd.xsd"));
+    }
+
+    @Test
+    public void getSingleVideoGameJsonResponse(){
+        given().pathParam("id", 5).
+        when().get(Endpoints.SINGLE_VIDEO_GAME).
+        then().body(matchesJsonSchemaInClasspath("VideoGameJson.json"));
+    }
+
 
 }
