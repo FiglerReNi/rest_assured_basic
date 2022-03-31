@@ -8,6 +8,7 @@ import hu.tmx.config.FootballDataConfig;
 import io.restassured.http.ContentType;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -87,11 +88,75 @@ public class FootballDataTest extends FootballDataConfig {
     }
 
     @Test
-    public  void getSingleTeamAllDataInGivenCompetition(){
+    public void getSingleTeamAllDataInGivenCompetition(){
         Response response = given().pathParam("id", 2021).
                             when().get(Endpoints.SINGLE_COMPETITION);
         Map<String, ?> allDataOfSingleTeam = response.path("teams.find {it.name == 'Liverpool FC'}");
         System.out.println(allDataOfSingleTeam);
     }
+
+    @Test
+    public void getSinglePlayerNameByShirtNumber(){
+        Response response = given().pathParam("id", 57).
+                            when().get(Endpoints.SINGLE_TEAM);
+        String certainPlayer = response.path("squad.find {it.shirtNumber == 48}.name");
+        System.out.println(certainPlayer);
+    }
+
+    @Test
+    public void getListOfPlayersNameByNationality(){
+        Response response = given().pathParam("id", 57).
+                            when().get(Endpoints.SINGLE_TEAM);
+        List<String> playersName = response.path("squad.findAll {it.nationality == 'Brazil'}.name");
+        System.out.println(playersName);
+    }
+
+    @Test
+    public void getSinglePlayerNameWithMaxShirtNumber(){
+        Response response = given().pathParam("id", 57).
+                            when().get(Endpoints.SINGLE_TEAM);
+        String playerName = response.path("squad.max {it.shirtNumber}.name");
+        System.out.println(playerName);
+    }
+
+    @Test
+    public void getSumAllPlayersId(){
+        Response response = given().pathParam("id", 57).
+                            when().get(Endpoints.SINGLE_TEAM);
+        int sumOfIds = response.path("squad.collect {it.id}.sum()");
+        System.out.println(sumOfIds);
+    }
+
+    @Test
+    public void getSinglePlayerByPositionAndNation(){
+        Response response = given().pathParam("id", 57).
+                            when().get(Endpoints.SINGLE_TEAM);
+        Map<String, ?> playerAllData = response.path("squad.findAll {it.position == 'Defender'}.find {it.nationality == 'England'}");
+        System.out.println(playerAllData);
+    }
+
+    @Test
+    public void getSinglePlayerByPositionAndNationWithParam(){
+        String position = "Defender";
+        String nationality = "England";
+        Response response = given().pathParam("id", 57).
+                            when().get(Endpoints.SINGLE_TEAM);
+        Map<String, ?> playerAllData = response.path("squad.findAll {it.position == '%s'}.find {it.nationality == '%s'}", position,
+                nationality);
+        System.out.println(playerAllData);
+    }
+
+    @Test
+    public void getPlayersByPositionAndNationWithParam(){
+        String position = "Defender";
+        String nationality = "England";
+        Response response = given().pathParam("id", 57).
+                when().get(Endpoints.SINGLE_TEAM);
+        ArrayList<Map<String, ?>> playerAllData = response.path("squad.findAll {it.position == '%s'}.findAll {it.nationality == '%s'}",
+                position, nationality);
+        System.out.println(playerAllData);
+    }
+
+
 
 }
