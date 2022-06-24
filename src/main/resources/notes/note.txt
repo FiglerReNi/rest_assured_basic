@@ -1,0 +1,85 @@
+https://github.com/rest-assured/rest-assured/wiki/Usage
+https://www.james-willett.com/blog/restassured/
+
+https://github.com/james-willett/VideoGameDB
+http://localhost:8080/swagger-ui/index.html
+	mvn spring-boot:run - ezzel a paranccsal indítjuk el
+
+https://www.football-data.org/index
+Your API token: b990d140603441ccb899040b700a0048
+	Postman:
+	Header:
+		X-Response-Control:minified
+		X-Auth-Token:b990d140603441ccb899040b700a0048
+	http://api.football-data.org/v2/teams/57
+	http://api.football-data.org/v2/competitions/2021/teams
+
+https://www.telerik.com/fiddler - proxi szerver
+
+http://pojo.sodhanalibrary.com/ - json vagy xml alapján csinál egy pojo-t
+
+https://www.freeformatter.com/xsd-generator.html - xml alapján legenerálja a hozzá tartozó schema-t, xsd formátumban
+
+https://jsonschema.net/home - json alapján legenerálja a hozzá tartozó schema-t, json formátumban
+
+https://github.com/rest-assured/rest-assured/wiki/Usage#authentication - authentication test
+https://github.com/jgritman/httpbuilder/wiki/SSL
+
+Szerkezet:
+  given() -- Request specification
+  	ebben a részben adunk meg különböző beállításokat
+  	pl.: header,küldendő body, paraméterek, configuráció
+  when()
+  	itt adjuk meg a végpontot amit hívni szeretnénk, és hogy milyen típusú a hívás
+  then() -- Response validation
+  	a választ tudjuk validálni
+  Ennek a szerkezetnek a hazsnálata nem kötelező, leginkább csak az olvashatóságot segíti. De ha a given() részben nem állítunk be semmit, akkor kezdhetjük az endpoint típusának megadásával pl az egészet: get(). Elhagyhatjuk a given() és when()-t is.
+
+Tudnivalók:
+  	Érdemes egy config class-t csinálni, amiben be tudunk minden olyat állítani, ami mindegyik teszthez kelleni fog, pl. útvonalat, portot, headert, egy @BeforeAll junit annotáción belül. Így a tesztosztály előtt fognak ezek a konfigurációk lefutni
+  	Ebben a file-ban be lehet állítani külön csak a requestre érvényes default dolgokat, ami mimden requestre igaz lesz. pl headereket -> ehhez a RequestSpecBuilder() fog kellenei.
+  	Ezzel a RequestSpecBuilder-rel is beállíthatjuk az útvonalat, portot is, logolást is
+  	És be lehet állítani olyan dolgokat amik csak a responsok után fognak lefutni, például statuscode ellenőrzése, mennyi idő alatt kaptuk vissza a response-t, header tartalmának ellenőrzése -> ehhez a ResponseSpecBuilder() fog kelleni
+  	A tesztekhez be lehet állítani egy proxyt. Ez egy közbenső állomás egy port, a kérés elküldése és a fogadó állomás között. Visszaadja a rajta áthaladó forgalom adatait.  Aktuális headert, bodyt stb. Debugoláshoz hasznos.
+  	  https://www.telerik.com/fiddler - ennek az eszköznek a segítségével lehet figyelni a különböző proxy-kat és az adataikat.
+  	A given() blockban definiált header mindig felülírja a RequestSpecBuilder-el beállított headert, vagy máshol config file-ban definiáltat.
+  	Serialization: Amikor egy json vagy xml-ből kell java POJO-t csinálni és fordítva
+    A when().body()-ban nem csak json-t vagy xml-t adhatunk át, hanem POJO-t is és ebből ő automatikusan jsont csinál
+
+Validáció:
+  Xml Schema alapján:
+  	A válaszban visszajövő xml-t hasonlítjuk egy xml schema-hoz (szerkezethez). vagyis nem az értékeket hasonlítjuk, hanem hogy maga a szerkezet, a mezők és tipusaik megfelelnek-e egy elvárt felépítésnek.
+  	Az xml schema-t egy .xsd kiterjesztésű file-ban adjuk meg és a resources mappába kerül.
+  	https://www.freeformatter.com/xsd-generator.html - xml alapján legenerálja a hozzá tartozó schema-t, xsd formátumban
+  	then().body(matchesXsdInClasspath("<.xsd file>")) - ezzel tudjuk a visszajövő response xml-t összehasonlítani a schema-val
+
+  Json Schema alapján:
+  	A válaszban visszajövő json-t hasonlítjuk egy json schema-hoz (szerkezethez). vagyis nem az értékeket hasonlítjuk, hanem hogy maga a szerkezet, a mezők és tipusaik megfelelnek-e egy elvárt felépítésnek.
+  	Az json schema-t egy .json kiterjesztésű file-ban adjuk meg és a resources mappába kerül.
+  	https://jsonschema.net/home - json alapján legenerálja a hozzá tartozó schema-t, json formátumban
+    then().body(matchesJsonSchemaInClasspath("<.json file>")) -  ezzel tudjuk a visszajövő response json-t összehasonlítani a schema-val
+
+Authentikáció tesztelés:
+  Basic authentication tesztelés:
+  	Kétféle módszerrel tesztelhetjük:
+  		Preemptive
+  			A kéréssel együtt küldjük is a felhasználónév  +jelszó párost
+  		Challenge
+  			A kérést elküldjük felhasználó + jelszó nélkül és ezeket csak akkor küldjük, ha visszajön a válasz, hogy szükség van rájuk.
+
+  OAuth
+  	Ennek a teszteléséhez kell egy dependency:
+  	<dependency>
+  		<groupId>com.github.scribejava</groupId>
+  		<artifactId>scribejava-apis</artifactId>
+  		<version>2.5.3</version>
+  		<scope>test</scope>
+  	</dependency>
+  	Két fajtája van:
+  		OAuth1 - ennek négy paraméterre van szüksége
+  		OAuth2 - egy tokent vár
+
+  SSL
+  	https-es útvonalak esetén hibára futhat a tesztelés az ssl miatt
+  	Ezt többféleképpen lehet megoldani a rest assured-al
+  		○ a beépített "relaxed HTTPS validation"-nal létre hozunk egy java key store-t valahol a file rendszerben az oldalhoz és ezt használjuk a tesztelés során
