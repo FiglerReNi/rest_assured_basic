@@ -83,3 +83,37 @@ Authentikáció tesztelés:
   	https-es útvonalak esetén hibára futhat a tesztelés az ssl miatt
   	Ezt többféleképpen lehet megoldani a rest assured-al
   		○ a beépített "relaxed HTTPS validation"-nal létre hozunk egy java key store-t valahol a file rendszerben az oldalhoz és ezt használjuk a tesztelés során
+
+HTTPVerbs:
+GET-adat visszakérés a szervertől
+POST-adat küldés a szervernek (create) xml vagy json formátumban
+PUT-már meglévő rekord módosítása
+DELETE-rekord törlése
+
+PathParam és QueryParam:
+  PathParameter:
+  http://api.football-data.org/v2/teams/{id}
+  Ebben az esetben a / jel után jön a paraméter, itt ennek nincs külön key.
+  QueryParameter:
+  http://api.football-data.org/v2/areas?areas={id}
+  Ebben az esetben ? jel után jön a paraméter ami kap külön key-t.
+
+XML:
+	Használ attributumokat, ebben a példában a category és a rating ilyen.
+	  <videoGame category="Shooter" rating="Universal">
+	    <id>1</id>
+	    <name>Resident Evil 4</name>
+	    <releaseDate>2005-10-01T00:00:00+02:00</releaseDate>
+	    <reviewScore>85</reviewScore>
+	  </videoGame>
+
+JSON:
+	Itt nincsenek attributumok, hanem ezek is sima mezők a jsonben
+	  {
+	    "id": 1,
+	    "name": "Resident Evil 4",
+	    "releaseDate": "2005-10-01",
+	    "reviewScore": 85,
+	    "category": "Shooter",
+	    "rating": "Universal"
+  }
